@@ -8,14 +8,14 @@
         // 1. 这里填整合包的跳转链接
         var jumpLink = "https://1839769930.share.123pan.cn/123pan/Cmn2Td-UVrHA";
 
-        // 2. 这里填中间显示的链接文本（点击复制按钮就是复制这个）
-        var copyText = "emcee-talisman.jp.e4mc.link";
+        // 2. 这里填中间显示的链接文本
+        var copyText = "=敬请期待=";
     </script>
     <!-- ========================================== -->
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>资源整合页</title>
+    <title>DchatS资源整合站</title>
     <style>
         body {
             margin: 0; padding: 0;
@@ -145,7 +145,7 @@
     <!-- 顶部按钮 -->
     <a href="#" class="top-btn" onclick="window.open(jumpLink, '_blank')">
         <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 10H6v-2h8v2zm4-4H6v-2h12v2z"/></svg>
-        整合包
+        整合包下载
     </a>
 
     <!-- 中间显示区域 -->
@@ -163,7 +163,7 @@
     </button>
 
     <!-- 提示框 -->
-    <div class="toast" id="toast">已复制到剪贴板！</div>
+    <div class="toast" id="toast">复制成功</div>
 
     <script>
         const displayText = document.getElementById('displayText');
@@ -208,7 +208,7 @@
         function handleCopy() {
             // 尝试静默复制
             navigator.clipboard.writeText(copyText).then(function() {
-                showToast("复制成功！");
+                showToast("复制成功");
             }).catch(function(err) {
                 // --- 复制失败时的补救措施 ---
 
@@ -224,7 +224,7 @@
                 // 3. 提示用户
                 showToast("请手动长按复制");
 
-                // 4. 点击任意地方恢复原状（可选体验优化）
+                // 4. 点击任意地方恢复原状
                 document.body.addEventListener('click', function reset() {
                     realInput.style.opacity = '0';
                     realInput.style.background = 'transparent';
