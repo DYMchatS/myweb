@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DchatS资源整合站</title>
+
     <!-- ========================================== -->
-    <!-- 【配置区】只改下面两行引号里的内容 -->
+    <!-- 【配置区】绝对置顶：只改下面两行引号里的内容 -->
     <!-- ========================================== -->
     <script>
         // 1. 这里填整合包的跳转链接
@@ -16,9 +17,6 @@
     </script>
     <!-- ========================================== -->
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DchatS资源整合站</title>
     <style>
         body {
             margin: 0; padding: 0;
@@ -27,114 +25,57 @@
             display: flex; flex-direction: column;
             justify-content: center; align-items: center;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            overflow: hidden; /* 防止出现滚动条 */
+            overflow: hidden;
         }
-
-        /* 顶部跳转按钮 */
         .top-btn {
             background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.4);
-            margin-bottom: 25px;
-            transition: transform 0.2s;
-            display: flex; align-items: center; gap: 8px;
-            text-decoration: none;
-            z-index: 10;
+            color: white; border: none; padding: 12px 30px; border-radius: 50px;
+            font-size: 16px; font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.4); margin-bottom: 25px;
+            transition: transform 0.2s; display: flex; align-items: center; gap: 8px;
+            text-decoration: none; z-index: 10;
         }
         .top-btn:active { transform: scale(0.95); }
         .top-btn svg { width: 18px; height: 18px; fill: white; }
-
-        /* 中间紫色框容器 */
+        
+        /* 新增：给紫色框添加点击样式 */
         .link-box-wrapper {
-            width: 85%;
-            max-width: 600px;
-            height: 60px;
-            background-color: #4b3b75;
-            border-radius: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
-            transition: all 0.3s ease;
-            overflow: hidden; /* 关键：隐藏超出的文字 */
+            width: 85%; max-width: 600px; height: 60px; background-color: #4b3b75;
+            border-radius: 30px; display: flex; justify-content: center; align-items: center;
+            position: relative; box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: all 0.3s ease; overflow: hidden;
+            cursor: pointer; /* 鼠标移上去变成小手 */
         }
+        .link-box-wrapper:active { transform: scale(0.98); } /* 点击时有轻微缩放反馈 */
 
-        /* 真正的输入框 (平时透明不可见，复制失败时变亮) */
         #realInput {
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            width: 100%; height: 100%;
-            background: transparent;
-            border: none;
-            outline: none;
-            color: white;
-            font-size: 18px;
-            text-align: center;
-            opacity: 0; /* 默认完全透明 */
-            cursor: default;
-            padding: 0 20px;
-            box-sizing: border-box;
-            z-index: 2;
+            position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            width: 100%; height: 100%; background: transparent; border: none; outline: none;
+            color: white; font-size: 18px; text-align: center; opacity: 0;
+            cursor: default; padding: 0 20px; box-sizing: border-box; z-index: 2;
         }
-
-        /* 显示的文字层 */
         .display-text {
-            color: #e0d8ff;
-            font-size: 18px;
-            letter-spacing: 1px;
-            white-space: nowrap; /* 不换行 */
-            overflow: hidden;
-            text-overflow: ellipsis; /* 超出显示省略号 */
-            width: 100%;
-            text-align: center;
-            pointer-events: none; /* 让点击穿透到下面的按钮或触发JS */
-            z-index: 1;
-            padding: 0 20px;
-            box-sizing: border-box;
+            color: #e0d8ff; font-size: 18px; letter-spacing: 1px; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; width: 100%; text-align: center;
+            pointer-events: none; z-index: 1; padding: 0 20px; box-sizing: border-box;
         }
-
-        /* 底部复制按钮 */
         .copy-btn {
-            margin-top: 25px;
-            background-color: #2c3549;
-            color: #aebbc9;
-            border: 1px solid #3e4a61;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex; align-items: center; gap: 6px;
+            margin-top: 25px; background-color: #2c3549; color: #aebbc9;
+            border: 1px solid #3e4a61; padding: 10px 25px; border-radius: 50px;
+            font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 6px;
             transition: all 0.2s;
         }
         .copy-btn:hover { background-color: #364259; color: white; }
         .copy-btn:active { transform: scale(0.95); }
         .copy-btn svg { width: 16px; height: 16px; fill: currentColor; }
-
-        /* 提示气泡 */
         .toast {
-            position: fixed;
-            top: 50%; left: 50%;
+            position: fixed; top: 50%; left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
-            background: rgba(0,0,0,0.8);
-            color: white;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-size: 14px;
-            opacity: 0;
-            pointer-events: none;
-            transition: all 0.3s;
-            z-index: 100;
+            background: rgba(0,0,0,0.8); color: white; padding: 12px 24px;
+            border-radius: 8px; font-size: 14px; opacity: 0; pointer-events: none;
+            transition: all 0.3s; z-index: 100;
         }
         .toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-
-        /* 平板/桌面适配 */
         @media (min-width: 768px) {
             .link-box-wrapper { max-width: 800px; height: 80px; }
             .display-text, #realInput { font-size: 22px; }
@@ -145,106 +86,116 @@
 </head>
 <body>
 
-    <!-- 顶部按钮 -->
     <a href="#" class="top-btn" onclick="window.open(jumpLink, '_blank')">
         <svg viewBox="0 0 24 24"><path d="M20 6h-8l-2-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6 10H6v-2h8v2zm4-4H6v-2h12v2z"/></svg>
         整合包下载-密码123
     </a>
 
-    <!-- 中间显示区域 -->
-    <div class="link-box-wrapper" id="boxWrapper">
-        <!-- 视觉层：用来显示文字 -->
+    <!-- 中间显示区域（已绑定点击强制刷新） -->
+    <div class="link-box-wrapper" id="boxWrapper" onclick="forceRefresh()">
         <div class="display-text" id="displayText"></div>
-        <!-- 功能层：用来复制（平时看不见） -->
         <input type="text" id="realInput" readonly>
     </div>
 
-    <!-- 底部按钮 -->
-    <button class="copy-btn" onclick="handleCopy()">
+    <button class="copy-btn" onclick="refreshAndCopy()">
         <svg viewBox="0 0 24 24"><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
-        点击复制链接(先刷新再复制)
+        先刷新再复制
     </button>
 
-    <!-- 提示框 -->
     <div class="toast" id="toast">复制成功</div>
 
     <script>
+        // ==========================================
+        // 1. 核心防缓存守卫：自动强制刷新
+        // ==========================================
+        (function() {
+            var urlParams = new URLSearchParams(window.location.search);
+            if (!urlParams.has('t')) {
+                var currentUrl = window.location.href.split('?')[0];
+                var newUrl = currentUrl + '?t=' + new Date().getTime();
+                window.location.replace(newUrl);
+            }
+        })();
+
+        // ==========================================
+        // 2. 页面基础逻辑
+        // ==========================================
         const displayText = document.getElementById('displayText');
         const realInput = document.getElementById('realInput');
         const boxWrapper = document.getElementById('boxWrapper');
 
-        // 初始化
         window.onload = function() {
-            // 1. 先把真实链接填入隐藏的 input
             realInput.value = copyText;
-
-            // 2. 智能判断是否显示省略号
             checkOverflow();
-
-            // 3. 监听窗口大小变化（比如旋转屏幕）
             window.addEventListener('resize', checkOverflow);
         };
 
-        // 核心逻辑：检测文字是否太宽
         function checkOverflow() {
-            // 临时把文字设为不截断，测量它的真实宽度
             displayText.style.textOverflow = 'clip';
             displayText.style.whiteSpace = 'nowrap';
-
-            // 获取文字实际占用的宽度
             const textWidth = displayText.scrollWidth;
-            // 获取框框允许的宽度（减去一点padding余量）
             const containerWidth = boxWrapper.clientWidth - 40;
-
             if (textWidth > containerWidth) {
-                // 如果太宽了 -> 开启省略号模式
                 displayText.style.textOverflow = 'ellipsis';
-                displayText.innerText = copyText; // 保持原文，CSS会自动加...
+                displayText.innerText = copyText;
             } else {
-                // 如果放得下 -> 完整显示
                 displayText.style.textOverflow = 'clip';
                 displayText.innerText = copyText;
             }
         }
 
-        // 处理复制逻辑
-        function handleCopy() {
-            // 尝试静默复制
-            navigator.clipboard.writeText(copyText).then(function() {
-                showToast("复制成功");
-            }).catch(function(err) {
-                // --- 复制失败时的补救措施 ---
-
-                // 1. 让隐藏的输入框显现出来（背景变亮一点提示用户）
-                realInput.style.opacity = '1';
-                realInput.style.background = 'rgba(255,255,255,0.1)';
-                realInput.removeAttribute('readonly'); // 允许选中
-
-                // 2. 自动全选文字
-                realInput.select();
-                realInput.setSelectionRange(0, 99999); // 适配移动端
-
-                // 3. 提示用户
-                showToast("请手动长按复制");
-
-                // 4. 点击任意地方恢复原状
-                document.body.addEventListener('click', function reset() {
-                    realInput.style.opacity = '0';
-                    realInput.style.background = 'transparent';
-                    realInput.setAttribute('readonly', true);
-                    document.body.removeEventListener('click', reset);
-                }, { once: true });
-            });
+        // ==========================================
+        // 3. 新增：点击紫色框强制刷新
+        // ==========================================
+        function forceRefresh() {
+            var timestamp = new Date().getTime();
+            var currentUrl = window.location.href.split('?')[0];
+            var newUrl = currentUrl + '?t=' + timestamp;
+            window.location.href = newUrl;
         }
 
-        // 显示提示气泡
+        // ==========================================
+        // 4. 按钮逻辑：先刷新再复制
+        // ==========================================
+        function refreshAndCopy() {
+            var timestamp = new Date().getTime();
+            var currentUrl = window.location.href.split('?')[0];
+            var newUrl = currentUrl + '?t=' + timestamp;
+            sessionStorage.setItem('autoCopyText', copyText);
+            window.location.href = newUrl;
+        }
+
+        window.addEventListener('load', function() {
+            var textToCopy = sessionStorage.getItem('autoCopyText');
+            if (textToCopy) {
+                sessionStorage.removeItem('autoCopyText');
+                setTimeout(function() {
+                    navigator.clipboard.writeText(textToCopy).then(function() {
+                        showToast("已获取最新内容并复制成功！");
+                    }).catch(function() {
+                        realInput.value = textToCopy;
+                        realInput.style.opacity = '1';
+                        realInput.style.background = 'rgba(255,255,255,0.1)';
+                        realInput.removeAttribute('readonly');
+                        realInput.select();
+                        realInput.setSelectionRange(0, 99999);
+                        showToast("已刷新，请手动长按复制");
+                        document.body.addEventListener('click', function reset() {
+                            realInput.style.opacity = '0';
+                            realInput.style.background = 'transparent';
+                            realInput.setAttribute('readonly', true);
+                            document.body.removeEventListener('click', reset);
+                        }, { once: true });
+                    });
+                }, 100);
+            }
+        });
+
         function showToast(msg) {
             const toast = document.getElementById('toast');
             toast.innerText = msg;
             toast.classList.add('show');
-            setTimeout(() => {
-                toast.classList.remove('show');
-            }, 2000);
+            setTimeout(() => { toast.classList.remove('show'); }, 2000);
         }
     </script>
 </body>
