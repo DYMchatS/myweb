@@ -144,7 +144,8 @@
         // 3. 纯复制逻辑 + 失败自动框选（无重影）
         // ==========================================
         document.getElementById('copyBtn').addEventListener('click', function() {
-            if (navigator.clipboard && navigator.clipboard.writeText) {
+            if (false) {
+
                 navigator.clipboard.writeText(copyText).then(function() {
                     showToast("✅ 复制成功");
                 }).catch(function() {
