@@ -144,10 +144,9 @@
         // 3. 纯复制逻辑 + 失败自动框选（无重影）
         // ==========================================
         document.getElementById('copyBtn').addEventListener('click', function() {
-            if (false) {
-
+            if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(copyText).then(function() {
-                    showToast("✅ 复制成功");
+                    showToast("复制成功");
                 }).catch(function() {
                     fallbackSelect();
                 });
@@ -164,7 +163,7 @@
             var selection = window.getSelection();
             selection.removeAllRanges();
             selection.addRange(range);
-            showToast("⚠️ 请手动长按或Ctrl+C复制");
+            showToast("请手动长按或Ctrl+C复制");
         }
 
         // ==========================================
@@ -179,3 +178,4 @@
     </script>
 </body>
 </html>
+
