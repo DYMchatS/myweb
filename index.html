@@ -100,10 +100,9 @@
         }
         .toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
-        /* 【修复2】强制限制 Toast 提示框内的 Emoji 大小，防止系统自动放大 */
-        .toast::first-letter {
+        /* 【终极修复】强制限制提示框内所有字符（包括表情）的大小，防止系统自动放大 */
+        .toast * {
             font-size: 15px !important;
-            line-height: 1 !important;
         }
 
         @media (min-width: 600px) {
@@ -130,7 +129,7 @@
 
     <a href="#" class="top-btn" onclick="window.open(jumpLink1, '_blank')">资源下载-密码123</a>
 
-    <!-- 【修复3】紫框强制刷新逻辑，通过拼接时间戳绕过本地缓存 -->
+    <!-- 【修复2】紫框强制刷新逻辑，通过拼接时间戳绕过本地缓存 -->
     <div class="link-box-wrapper" id="boxWrapper" onclick="window.location.href = window.location.href.split('?')[0] + '?t=' + new Date().getTime()">
         <div class="display-text" id="displayText"></div>
     </div>
@@ -151,7 +150,7 @@
             var el = document.getElementById('displayText');
             if (el) el.textContent = copyText;
 
-            // 【修复4】全环境兼容的自动复制逻辑
+            // 【修复3】全环境兼容的自动复制逻辑
             document.getElementById('copyBtn').addEventListener('click', function(e) {
                 e.stopPropagation(); // 防止冒泡
                 
