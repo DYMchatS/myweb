@@ -137,7 +137,7 @@
         <a href="#" class="bottom-btn wiki-btn" onclick="window.open(jumpLink3, '_blank')">维基百科</a>
     </div>
 
-    <div class="toast" id="toast">复制✅成功</div>
+    <div class="toast" id="toast">复制 ✅ 成功</div>
 
     <script>
         window.onload = function() {
@@ -167,7 +167,7 @@
                 document.body.removeChild(textarea);
                 
                 if (success) {
-                    showToast("复制✅成功");
+                    showToast("复制 ✅ 成功");
                 } else {
                     // 如果底层自动复制依然失败，才走手动框选兜底
                     fallbackSelect();
@@ -184,7 +184,7 @@
             var selection = window.getSelection();
             selection.removeAllRanges();
             selection.addRange(range);
-            showToast("复制❌失败，请手动复制");
+            showToast("复制 ❌ 失败，请手动复制");
         }
 
         // Toast 提示框
