@@ -100,6 +100,12 @@
         }
         .toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
+        /* 【修复2】强制限制 Toast 提示框内的 Emoji 大小，防止系统自动放大 */
+        .toast::first-letter {
+            font-size: 15px !important;
+            line-height: 1 !important;
+        }
+
         @media (min-width: 600px) {
             .top-btn { width: 340px; padding: 14px 0; font-size: 16px; }
             .link-box-wrapper { max-width: 90%; min-width: 340px; height: 60px; line-height: 60px; border-radius: 30px; }
@@ -124,7 +130,7 @@
 
     <a href="#" class="top-btn" onclick="window.open(jumpLink1, '_blank')">资源下载-密码123</a>
 
-    <!-- 【修复2】紫框强制刷新逻辑，通过拼接时间戳绕过本地缓存 -->
+    <!-- 【修复3】紫框强制刷新逻辑，通过拼接时间戳绕过本地缓存 -->
     <div class="link-box-wrapper" id="boxWrapper" onclick="window.location.href = window.location.href.split('?')[0] + '?t=' + new Date().getTime()">
         <div class="display-text" id="displayText"></div>
     </div>
@@ -137,7 +143,7 @@
         <a href="#" class="bottom-btn wiki-btn" onclick="window.open(jumpLink3, '_blank')">维基百科</a>
     </div>
 
-    <div class="toast" id="toast">复制 ✅ 成功</div>
+    <div class="toast" id="toast">复制✅成功</div>
 
     <script>
         window.onload = function() {
@@ -145,7 +151,7 @@
             var el = document.getElementById('displayText');
             if (el) el.textContent = copyText;
 
-            // 【修复3】全环境兼容的自动复制逻辑
+            // 【修复4】全环境兼容的自动复制逻辑
             document.getElementById('copyBtn').addEventListener('click', function(e) {
                 e.stopPropagation(); // 防止冒泡
                 
@@ -167,7 +173,7 @@
                 document.body.removeChild(textarea);
                 
                 if (success) {
-                    showToast("复制 ✅ 成功");
+                    showToast("复制✅成功");
                 } else {
                     // 如果底层自动复制依然失败，才走手动框选兜底
                     fallbackSelect();
@@ -184,7 +190,7 @@
             var selection = window.getSelection();
             selection.removeAllRanges();
             selection.addRange(range);
-            showToast("复制 ❌ 失败，请手动复制");
+            showToast("复制❌失败，请手动复制");
         }
 
         // Toast 提示框
