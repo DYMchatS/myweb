@@ -1,243 +1,199 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
- <meta charset="UTF-8">
- <!-- 【修复1】去掉 maximum-scale/user-scalable=no，允许用户缩放兜底；viewport-fit=cover 支持刘海屏 -->
- <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <!-- 全局防缓存标签 -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
 
- <!-- 全局防缓存标签 -->
- <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
- <meta http-equiv="Pragma" content="no-cache">
- <meta http-equiv="Expires" content="0">
+    <title>DchatS资源站</title>
 
- <title>DchatS资源站</title>
+    <script>
+        // --- 配置区域：以后只需要改这里1上面的2 左面的3 右面的4 复制的 ---
+        var jumpLink1 = "https://dchats.lanzouv.com/b011m9npve";
+        var jumpLink2 = "https://minecraftsearch.com/zh-CN";
+        var jumpLink3 = "https://zh.minecraft.wiki/";
+        var copyText = "aka.mc6.cn:19742";
+    </script>
 
- <script>
- // --- 配置区域：以后只需要改这里1上面的2 左面的3 右面的4 复制的 ---
- var jumpLink1 = "https://dchats.lanzouv.com/b011m9npve";
- var jumpLink2 = "https://minecraftsearch.com/zh-CN";
- var jumpLink3 = "https://zh.minecraft.wiki/";
- var copyText = "aka.mc6.cn:19742";
- </script>
+    <style>
+        body {
+            margin: 0; padding: 0;
+            background-color: #181c29; 
+            height: 100vh;
+            display: flex; flex-direction: column;
+            justify-content: center; align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            opacity: 0; 
+            animation: fadeIn 0.8s forwards;
+        }
+        @keyframes fadeIn { to { opacity: 1; } }
+        
+        /* 【修复1】彻底消除点击时出现的蓝色方框 */
+        a, button, div { outline: none !important; -webkit-tap-highlight-color: transparent; }
 
- <style>
- * { box-sizing: border-box; }
+        .top-btn {
+            background: linear-gradient(135deg, #3a7bd5 0%, #6b5b95 100%);
+            color: rgba(255,255,255,0.95); border: none; border-radius: 50px;
+            font-weight: bold; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(58, 123, 213, 0.4); margin-bottom: 25px;
+            transition: transform 0.2s, box-shadow 0.2s; 
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            text-decoration: none; z-index: 10;
+            width: 80%; max-width: 320px; padding: 12px 0; font-size: 15px;
+        }
+        .top-btn:active { transform: scale(0.96); }
 
- body {
- margin: 0; padding: 0;
- background-color: #181c29;
- /* 【修复2】height:100vh → min-height:100dvh（旧浏览器回退100vh），
-    避免手机浏览器地址栏遮挡；overflow:hidden → auto，内容超高可滚动不裁切 */
- min-height: 100vh;
- min-height: 100dvh;
- display: flex; flex-direction: column;
- align-items: center;
- font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
- overflow-y: auto;
- opacity: 0;
- animation: fadeIn 0.8s forwards;
- /* 刘海屏/圆角屏安全区 */
- padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
- }
- @keyframes fadeIn { to { opacity: 1; } }
+        .link-box-wrapper {
+            display: inline-block; max-width: 90%; min-width: 80%; height: 50px; line-height: 50px; 
+            background: linear-gradient(90deg, #3a7bd5 0%, #8e54e9 100%);
+            border-radius: 25px; box-shadow: 0 5px 20px rgba(142, 84, 233, 0.3);
+            transition: all 0.3s ease; box-sizing: border-box; padding: 0 20px; cursor: pointer;
+            border: none; text-align: center;
+        }
+        .link-box-wrapper:active { transform: scale(0.98); }
 
- /* 【修复3】新增包裹层，用 margin:auto 居中：
-    内容不超高时垂直居中；超高时自动变为顶部对齐可滚动，不会被 flex 居中裁掉顶部 */
- .page {
- margin: auto 0;
- display: flex; flex-direction: column; align-items: center;
- width: 100%;
- padding: 24px 0;
- }
+        .display-text {
+            color: #ffffff; font-size: 17px; letter-spacing: 1px; white-space: nowrap;
+            overflow: hidden; text-overflow: ellipsis; display: block; user-select: text;
+            font-weight: 500; text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+        }
 
- /* 彻底消除点击时出现的蓝色方框 */
- a, button, div { outline: none !important; -webkit-tap-highlight-color: transparent; }
+        .copy-btn {
+            margin-top: 25px; background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
+            color: #e0f7fa; border: none; border-radius: 50px; font-size: 14px; cursor: pointer; 
+            display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+            backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
+            box-shadow: 0 0 10px rgba(76, 161, 175, 0.2); width: 70%; max-width: 260px;
+            padding: 10px 0; justify-content: center;
+        }
+        .copy-btn:active { transform: scale(0.95); }
 
- .top-btn {
- background: linear-gradient(135deg, #3a7bd5 0%, #6b5b95 100%);
- color: rgba(255,255,255,0.95); border: none; border-radius: 50px;
- font-weight: bold; cursor: pointer;
- box-shadow: 0 4px 15px rgba(58, 123, 213, 0.4); margin-bottom: 25px;
- transition: transform 0.2s, box-shadow 0.2s;
- display: flex; align-items: center; justify-content: center; gap: 8px;
- text-decoration: none; z-index: 10;
- /* 【修复4】固定宽度 → min(百分比, 上限)：窄屏流式缩放，宽屏不超上限，永不溢出 */
- width: min(84vw, 320px);
- padding: 14px 0; font-size: 16px;
- min-height: 48px; /* 【修复5】触控目标保底高度 */
- }
- .top-btn:active { transform: scale(0.96); }
+        .btn-group {
+            display: flex; justify-content: center; align-items: center; gap: 15px;
+            margin-top: 25px; width: 80%; max-width: 320px;
+        }
+        .bottom-btn {
+            flex: 1; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            color: rgba(255,255,255,0.95); border: none; border-radius: 50px;
+            font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4); 
+            transition: transform 0.2s, box-shadow 0.2s; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; z-index: 10; padding: 12px 0; font-size: 14px;
+        }
+        .bottom-btn:active { transform: scale(0.96); }
 
- .link-box-wrapper {
- /* 【修复4】原 min-width:80% 会覆盖 max-width:90% 造成溢出，统一改为流式宽度 */
- width: min(84vw, 320px); height: 52px; line-height: 52px;
- background: linear-gradient(90deg, #3a7bd5 0%, #8e54e9 100%);
- border-radius: 26px; box-shadow: 0 5px 20px rgba(142, 84, 233, 0.3);
- transition: all 0.3s ease; padding: 0 20px; cursor: pointer;
- border: none; text-align: center;
- }
- .link-box-wrapper:active { transform: scale(0.98); }
+        /* 仅针对维基百科按钮的渐变反转样式 */
+        .bottom-btn.wiki-btn {
+            background: linear-gradient(135deg, #38ef7d 0%, #11998e 100%);
+        }
 
- .display-text {
- color: #ffffff; font-size: 17px; letter-spacing: 1px; white-space: nowrap;
- overflow: hidden; text-overflow: ellipsis; display: block; user-select: text;
- font-weight: 500; text-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
- }
+        /* Toast 提示框：白底黑字样式 */
+        .toast {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+            background: #ffffff; color: #333333; padding: 16px 32px; border-radius: 12px; 
+            font-size: 15px; font-weight: 500; opacity: 0; transition: all 0.25s ease; z-index: 100;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3); white-space: nowrap; pointer-events: none; 
+        }
+        .toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
- .copy-btn {
- margin-top: 25px; background: linear-gradient(135deg, #2c3e50 0%, #4ca1af 100%);
- color: #e0f7fa; border: none; border-radius: 50px; font-size: 14px; cursor: pointer;
- display: flex; align-items: center; gap: 6px; transition: all 0.2s;
- backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);
- box-shadow: 0 0 10px rgba(76, 161, 175, 0.2);
- width: min(70vw, 260px);
- padding: 12px 0; justify-content: center;
- min-height: 44px;
- }
- .copy-btn:active { transform: scale(0.95); }
-
- .btn-group {
- display: flex; justify-content: center; align-items: center; gap: 15px;
- margin-top: 25px; width: min(84vw, 320px);
- }
- .bottom-btn {
- flex: 1; background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
- color: rgba(255,255,255,0.95); border: none; border-radius: 50px;
- font-weight: bold; cursor: pointer; box-shadow: 0 4px 15px rgba(17, 153, 142, 0.4);
- transition: transform 0.2s, box-shadow 0.2s; display: flex; align-items: center; justify-content: center;
- text-decoration: none; z-index: 10; padding: 14px 0; font-size: 15px;
- min-height: 48px;
- }
- .bottom-btn:active { transform: scale(0.96); }
-
- /* 仅针对维基百科按钮的渐变反转样式 */
- .bottom-btn.wiki-btn {
- background: linear-gradient(135deg, #38ef7d 0%, #11998e 100%);
- }
-
- /* Toast 提示框：白底黑字样式 */
- .toast {
- position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
- background: #ffffff; color: #333333; padding: 16px 32px; border-radius: 12px;
- font-size: 15px; font-weight: 500; opacity: 0; transition: all 0.25s ease; z-index: 100;
- box-shadow: 0 8px 30px rgba(0,0,0,0.3); white-space: nowrap; pointer-events: none;
- }
- .toast.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-
- /* ================= 分场景媒体查询 ================= */
- /* 说明：电脑竖屏 = 桌面浏览器窄窗口，会自动落入下面按宽度划分的档位，无需单独处理 */
-
- /* 平板竖屏 / 桌面窄窗口 */
- @media (min-width: 600px) {
- .top-btn { width: min(70vw, 360px); padding: 16px 0; font-size: 17px; }
- .link-box-wrapper { width: min(70vw, 360px); height: 62px; line-height: 62px; border-radius: 31px; }
- .display-text { font-size: 20px; }
- .copy-btn { width: min(60vw, 300px); padding: 14px 0; font-size: 15px; }
- .btn-group { width: min(70vw, 360px); }
- .bottom-btn { padding: 16px 0; font-size: 16px; }
- }
-
- /* 平板横屏 / 电脑横屏 */
- @media (min-width: 1024px) {
- .top-btn { width: min(60vw, 400px); padding: 18px 0; font-size: 18px; }
- .link-box-wrapper { width: min(60vw, 400px); height: 70px; line-height: 70px; border-radius: 35px; }
- .display-text { font-size: 24px; letter-spacing: 2px; }
- .copy-btn { width: min(50vw, 330px); padding: 15px 0; font-size: 16px; }
- .btn-group { width: min(60vw, 400px); }
- .bottom-btn { padding: 18px 0; font-size: 17px; }
- .top-btn:hover, .bottom-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(58, 123, 213, 0.6); }
- .link-box-wrapper:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(142, 84, 233, 0.5); }
- }
-
- /* 【修复6】手机横屏（低高度屏）专用紧凑布局，必须放最后以覆盖上面的宽度档位：
-    压缩纵向间距，保证总高度 < 320px，按钮不会被裁切 */
- @media (orientation: landscape) and (max-height: 500px) {
- .page { padding: 10px 0; }
- .top-btn { width: min(60vw, 300px); margin-bottom: 12px; padding: 10px 0; font-size: 15px; min-height: 42px; }
- .link-box-wrapper { width: min(60vw, 300px); height: 44px; line-height: 44px; border-radius: 22px; }
- .display-text { font-size: 15px; }
- .copy-btn { width: min(50vw, 240px); margin-top: 12px; padding: 9px 0; font-size: 13px; min-height: 40px; }
- .btn-group { width: min(60vw, 300px); margin-top: 12px; gap: 12px; }
- .bottom-btn { padding: 10px 0; font-size: 14px; min-height: 42px; }
- }
- </style>
+        @media (min-width: 600px) {
+            .top-btn { width: 340px; padding: 14px 0; font-size: 16px; }
+            .link-box-wrapper { max-width: 90%; min-width: 340px; height: 60px; line-height: 60px; border-radius: 30px; }
+            .display-text { font-size: 20px; }
+            .copy-btn { width: 280px; padding: 12px 0; font-size: 15px; }
+            .btn-group { width: 340px; }
+            .bottom-btn { padding: 14px 0; font-size: 15px; }
+        }
+        @media (min-width: 1024px) {
+            .top-btn { width: 380px; padding: 16px 0; font-size: 18px; }
+            .link-box-wrapper { max-width: 90%; min-width: 380px; height: 70px; line-height: 70px; border-radius: 35px; }
+            .display-text { font-size: 24px; letter-spacing: 2px; }
+            .copy-btn { width: 320px; padding: 14px 0; font-size: 16px; }
+            .btn-group { width: 380px; }
+            .bottom-btn { padding: 16px 0; font-size: 16px; }
+            .top-btn:hover, .bottom-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(58, 123, 213, 0.6); }
+            .link-box-wrapper:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(142, 84, 233, 0.5); }
+        }
+    </style>
 </head>
 <body>
 
- <main class="page">
- <a href="#" class="top-btn" onclick="window.open(jumpLink1, '_blank')">资源下载-密码123</a>
+    <a href="#" class="top-btn" onclick="window.open(jumpLink1, '_blank')">资源下载-密码123</a>
 
- <!-- 紫框强制刷新逻辑，通过拼接时间戳绕过本地缓存 -->
- <div class="link-box-wrapper" id="boxWrapper" onclick="window.location.href = window.location.href.split('?')[0] + '?t=' + new Date().getTime()">
- <div class="display-text" id="displayText"></div>
- </div>
+    <!-- 【修复2】紫框强制刷新逻辑，通过拼接时间戳绕过本地缓存 -->
+    <div class="link-box-wrapper" id="boxWrapper" onclick="window.location.href = window.location.href.split('?')[0] + '?t=' + new Date().getTime()">
+        <div class="display-text" id="displayText"></div>
+    </div>
 
- <button class="copy-btn" id="copyBtn">点击复制(先点紫框刷新)</button>
+    <button class="copy-btn" id="copyBtn">点击复制(先点紫框刷新)</button>
 
- <div class="btn-group">
- <a href="#" class="bottom-btn" onclick="window.open(jumpLink2, '_blank')">种子地图</a>
- <!-- 仅给维基百科按钮添加了 wiki-btn 类名用于反转渐变 -->
- <a href="#" class="bottom-btn wiki-btn" onclick="window.open(jumpLink3, '_blank')">维基百科</a>
- </div>
- </main>
+    <div class="btn-group">
+        <a href="#" class="bottom-btn" onclick="window.open(jumpLink2, '_blank')">种子地图</a>
+        <!-- 仅给维基百科按钮添加了 wiki-btn 类名用于反转渐变 -->
+        <a href="#" class="bottom-btn wiki-btn" onclick="window.open(jumpLink3, '_blank')">维基百科</a>
+    </div>
 
- <div class="toast" id="toast">复制成功</div>
+    <div class="toast" id="toast">复制成功</div>
 
- <script>
- window.onload = function() {
- // 渲染文本
- var el = document.getElementById('displayText');
- if (el) el.textContent = copyText;
+    <script>
+        window.onload = function() {
+            // 渲染文本
+            var el = document.getElementById('displayText');
+            if (el) el.textContent = copyText;
 
- // 全环境兼容的自动复制逻辑
- document.getElementById('copyBtn').addEventListener('click', function(e) {
- e.stopPropagation(); // 防止冒泡
+            // 【修复3】全环境兼容的自动复制逻辑
+            document.getElementById('copyBtn').addEventListener('click', function(e) {
+                e.stopPropagation(); // 防止冒泡
+                
+                // 1. 创建隐藏的文本框
+                var textarea = document.createElement('textarea');
+                textarea.value = copyText;
+                textarea.style.position = 'fixed'; // 防止滚动
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                
+                // 2. 选中文本并执行【自动复制】
+                textarea.select();
+                var success = false;
+                try {
+                    success = document.execCommand('copy'); // 这是真正的自动复制到剪贴板
+                } catch (err) {}
+                
+                // 3. 清理并给出提示
+                document.body.removeChild(textarea);
+                
+                if (success) {
+                    showToast("复制成功");
+                } else {
+                    // 如果底层自动复制依然失败，才走手动框选兜底
+                    fallbackSelect();
+                }
+            });
+        };
 
- // 1. 创建隐藏的文本框
- var textarea = document.createElement('textarea');
- textarea.value = copyText;
- textarea.style.position = 'fixed'; // 防止滚动
- textarea.style.opacity = '0';
- document.body.appendChild(textarea);
+        // 终极兜底：自动高亮框选文本，提示手动复制
+        function fallbackSelect() {
+            var displayEl = document.getElementById('displayText');
+            displayEl.focus();
+            var range = document.createRange();
+            range.selectNodeContents(displayEl);
+            var selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(range);
+            showToast("复制失败，请手动复制");
+        }
 
- // 2. 选中文本并执行【自动复制】
- textarea.select();
- var success = false;
- try {
- success = document.execCommand('copy'); // 这是真正的自动复制到剪贴板
- } catch (err) {}
-
- // 3. 清理并给出提示
- document.body.removeChild(textarea);
-
- if (success) {
- showToast("复制成功");
- } else {
- // 如果底层自动复制依然失败，才走手动框选兜底
- fallbackSelect();
- }
- });
- };
-
- // 终极兜底：自动高亮框选文本，提示手动复制
- function fallbackSelect() {
- var displayEl = document.getElementById('displayText');
- displayEl.focus();
- var range = document.createRange();
- range.selectNodeContents(displayEl);
- var selection = window.getSelection();
- selection.removeAllRanges();
- selection.addRange(range);
- showToast("复制失败，请手动复制");
- }
-
- // Toast 提示框
- function showToast(msg) {
- var toast = document.getElementById('toast');
- toast.innerText = msg;
- toast.classList.add('show');
- setTimeout(function() { toast.classList.remove('show'); }, 2000);
- }
- </script>
+        // Toast 提示框
+        function showToast(msg) {
+            var toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.add('show');
+            setTimeout(function() { toast.classList.remove('show'); }, 2000);
+        }
+    </script>
 </body>
 </html>
